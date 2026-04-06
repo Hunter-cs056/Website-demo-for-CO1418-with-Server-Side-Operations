@@ -1,0 +1,522 @@
+   /* ========================================
+    General CSS for all sections
+   ======================================== */
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+body{
+	line-height: 1.5;
+	font-family: 'Segoe UI', Tahoma, Ge;eva, Verdana, sans-serif;
+	font-size:1.2em;
+}
+html, body{
+	height:100%;
+	display:flex;
+	flex-direction:column;
+}
+main, #item-content, .content, .product-content{
+	flex:1;
+}
+footer{
+	margin-top:auto;
+	z-index:0;
+}
+   /* Navigation Bar Section  */
+
+.navbar{
+	background:#BE1622;
+	color:white;
+}
+.navbar .container{
+	display:flex;
+	justify-content: space-between;
+	align-items:center;
+	padding:1em;
+}
+.left-side{
+	display:flex;
+	align-items:center;
+	gap:1em;
+}
+.right-side{
+	display:flex;
+	align-items:center;
+	gap:1em;
+}
+.logo img{
+	width: 10em;
+	height:auto;
+}
+.nav-menu{
+	list-style:none;
+	display:flex;
+	gap: 1em;
+}
+.nav-menu li a{
+	color:white;
+	text-decoration:none;
+}
+
+/* Content Section */
+/* Our container */
+.content{
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	margin:0 20em;
+	gap:1em;
+}
+/* Headings and Text */
+.content h1
+{	
+	width:100%;
+	text-align:left;
+	color:#34516C;
+}
+.content h2
+{	
+	width:100%;
+	text-align:left;
+	color:#F2BE1A;
+}
+.content-text{
+	width:100%;
+	text-align:left:
+}
+/* Videos/Iframes and their parents */
+.contentVid1{
+	display:flex;
+	justify-content: center;
+	width:100%;
+}
+video{
+	width:100%;
+	height:auto;
+}
+.contentVid2{
+	position:relative;
+	width:100%;
+	padding-top:56.25%;
+}
+.contentVid2 iframe{
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	border:0;
+}
+   /*Footer Section*/
+ 
+footer .container{
+	display:flex;
+	justify-content: center;
+	align-items:flex-start;
+	margin-top:1em;
+	padding:2em;
+	gap:3em;
+	background-color:#34516C;
+	color:white;
+	
+}
+footer .container .links{ 
+	text-align:left;
+   }
+footer .container .links  a{ 
+	color:white;
+	text-decoration:none;
+   }
+   
+   
+    /* ========================================
+    PRODUCT PAGE
+   ======================================== */
+   /* Header and footer are already styled so now we need to just style the content section */
+   
+   /* Filter */
+	.filter-bar{
+		margin:0.5em 0;
+		margin-bottom:2em;
+		text-align:center;
+	}
+	#stock-filter{
+		border-radius:4px;
+		border:1px solid black;
+	}
+	/* Products */
+      .product-content{
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	margin:0 15em;
+	gap:1em;
+}
+   .product-container{
+	   display:flex;
+	   margin-top:1em;
+	   flex-wrap:wrap;
+	   justify-content: center;
+	   gap:2em;
+	   width:100%;
+   }
+   /* The whole product box */
+   .product-itself{
+	   flex:1 0 250px;
+	   border: 1px solid #ccc;
+	   border-radius:8px;
+	   padding:1em;
+	   text-align:center;
+	   background-color: #C7CBDA;
+	   max-width:400px;
+   }
+   /* Product image */
+   .product-itself img{
+	   width:100%;
+	   height:auto;
+	}
+	/* Product title */
+   .product-itself h3{
+	  margin:0.5em 0 ;
+	  color:#BE1622;
+   }
+   /* Product text and price */
+   .product-itself p{
+	   margin:0.5em 0;
+	   
+   }
+   /* View more button */
+   .view-button{
+	   display:block;
+	   margin-top:0.5em;
+	   padding:0.5em 1em;
+	   text-decoration:none;
+	   border-radius:4px;
+	   color:#0099D2;
+	   font-weight:bold;
+	   transition: background 0.3s;
+   }
+   .product-page-button{
+	   display:block;
+	   margin:0.5em auto;
+	   font-weight:bold;
+	   padding:0.5em;
+   }
+   /* Back to top button */
+   .back-to-top{
+	   position:fixed;
+	   bottom:15em;
+	   right:9em;
+	   display:none; 
+	   border:none;
+	   border-radius:2em;
+	   color:white;
+	   background-color:#BE1622;
+	   padding:10px 15px;'
+	   cursor:pointer;
+	   z-index:1000;
+	   transition: opacity 0.3s ease;
+   }
+   .back-to-top:hover{
+	   background-color:darkred;
+   }
+  /* ========================================
+    ITEM PAGE
+   ======================================== */
+   /* Header and footer are already styled so now we need to just style the content section */  
+   .product-detail-card{
+	   flex:1 0 250px;
+	   border: 1px solid #ccc;
+	   border-radius:8px;
+	   padding:1em;
+	   text-align:center;
+	   background-color: #C7CBDA;
+	   max-width:800px;
+	   margin:2em auto;
+   }
+   .product-detail-card img {
+	   width:100%;
+	   height:auto;
+	   border-radius:4px;
+	   margin-bottom:0.5em;
+   }
+     .product-detail-card h2 {
+	   color:#BE1622;
+   }
+   .product-detail-card p {
+	   margin:0.5em 0;
+	   font-size:1em;
+   }
+    
+   .product-detail-card .stock-status{
+	   font-weight: bold;
+	   text-transform: capitalize;
+   }
+   
+  .product-detail-card button{
+	  padding:0.6em 1.2em;
+	  font-size:1em;
+  }
+  /* ========================================
+    CART PAGE
+   ======================================== */
+   /* Header and footer are already styled so now we need to just style the content section */  
+   /* Our cart header */
+
+.cart-header,
+.cart-row {
+	max-width:800px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 10em 10em 10em 10em 1em;
+	gap:0em;
+	align-items:center;
+	padding: 0.5em 0;
+}
+.cart-header{
+	text-align:center;
+	font-weight:bold;
+	border-bottom:2px solid lightgray;
+	
+}
+/* Our cart body */
+.cart-cell{
+	text-align: center;
+	font-weight:bold;
+}
+.cart-image{
+	width:5em;
+	height:auto;
+}
+.remove-btn{
+	background-color:#BE1622;
+	color:white;
+	border:none;
+	border-radius:2em;
+	padding:0.3em;
+	cursor:pointer;
+}
+#empty-cart{
+	text-align:center;
+	font-weight:bold;
+	padding:1em;
+}
+
+.qty-btn{
+	padding:0.2em 0.3em;
+	font-weight:bold;
+	cursor:pointer;
+	font-size: 0.9em;
+	
+}
+.qty-input{
+	width:4em;
+	text-align:center;
+	font-weight:bold;
+	margin:0 0.2em;
+	padding:0.5em;
+}
+/* Our Cart footer */
+.cart-footer{
+	display:flex;
+	justify-content: flex-end;
+	max-width: 800px;
+	margin: 0 auto;
+	border-top:1px solid lightgray;
+	gap:1em;
+}
+#code-input{
+		padding:0.4em;
+		border:1px solid black;
+}
+#discount-button{
+	padding:0.3em;
+	border-radius:0.4em;
+	cursor:pointer;
+	border:none;
+	background-color:#339933;
+	color:white;
+	font-weight:bold;
+}
+#empty-cart-buttton{
+	border-radius:0.3em;
+	background-color:#BE1622;
+	cursor:pointer;
+	color:white;
+	border:none;
+	padding:0.3em;
+	margin-right:auto;
+	margin-top:0.2em;
+}
+
+/* ========================================
+   OFFERS SECTION(HOMEPAGE)
+   ======================================== */
+   .offers-container{
+	   display:flex;
+	   flex-wrap:wrap;
+	   justify-content:center;
+	   gap:1.5em;
+	   width:100%;
+	   margin-bottom:1.5em;
+   }
+   .offer-card{
+	   flex:1 1 250px;
+	   max-width:400px;
+	   border: 1px solid #ccc;
+	   border-radius:8px;
+	   padding:1.2em;
+	   text-align: center;
+	   background-color: #C7CBDA;
+   }
+   
+   .offer-card h3{
+	   margin: 0.3em 0;
+	   color: #BE1622;
+   }
+   
+   .offer-card p{
+	   margin:0.5em 0;
+   }
+   
+/* ========================================
+   MOBILE-APPROACH
+   Target: Mobile devices (600px)
+   ======================================== */
+   
+
+@media (max-width: 600px){
+	
+/* Navigation-bar section*/
+.navbar{
+	position:relative;
+	margin-bottom:1em;
+}
+.nav-menu{
+	display:none;
+	position:absolute;
+	top:100%;
+	left:0;
+	width:100%;
+	background-color:darkgray;
+}
+.nav-menu a{
+	text-decoration:none;
+	color:white;
+}
+.hamburger
+{
+	display:flex;
+	flex-direction:column;
+	cursor: pointer;
+	margin-left:0.1em;
+		}
+.hamburger span {
+    width: 2em;
+    height: 0.3em;
+    background-color: white;
+    margin: 2px 1px;
+    transition: 0.3s;
+	border-radius:1em;
+	margin-left:auto;
+}
+.hamburger:hover span {
+  background-color:#C7CBDA;
+}
+.nav-menu.active {
+    display: flex;/*On mobile the navList is  visible when burger is clicked*/
+}
+/* Handle font sizes and logo image */
+.logo img{
+	width:8em;
+	height:auto;
+}
+.HeaderText h2{
+	font-size:1.2em;
+}
+/* Footer section*/
+footer .container{
+	flex-wrap:wrap;
+	justify-content:flex-start;
+	gap:1.5em;
+	}
+footer .container .links{
+	flex: 1 1 100%;
+}
+footer .container .links h3{
+	font-size:1em;
+}
+footer .container .links p{
+	font-size:0.9em;
+}
+/* Modify each page's content area section */
+	/* Index page content area */
+	.content{
+		line-height: 1.3;
+		margin:0.1em 1em;
+	}
+	.content h1{
+		font-size:1.5em;
+	}
+	.content h2{
+		font-size:1.3em;
+	}
+	.content-text p{
+		font-size:0.9em;
+	}
+	
+	/* Product page content area */
+	.product-content{
+		margin: 0em 1em;
+	}
+	.product-container{
+		gap:1em;
+		line-height:1.3em;
+	}
+	.back-to-top{
+		bottom: 1em;
+		right:1em;
+		opacity:0.5;
+	}
+	/* Handle font sizes */
+	.product-itself h3{
+		font-size:1.1em;
+	}
+	.product-itself p{
+		font-size:1em;
+	}
+	
+	/* Item page content area */
+	.product-detail-card {
+		margin: 0 1em;
+	}
+	.product-detail-card h2{
+		font-size:1.3em;
+	}
+		.product-detail-card p{
+		font-size:1em;
+	}
+	.product-detail-card button{
+		padding:0.5em;
+	}
+	/* Cart page content area */
+	.cart-row{
+		display:flex;
+		flex-wrap:wrap;
+		gap:0.5em;
+		margin:1em;
+		
+	}
+	.cart-header{
+		display:none;
+	}
+	.cart-row .cart-cell{
+		flex:1 1 1 20%;
+		text-align:center;
+	}
+	.cart-cell .view-button{
+		margin:0;
+		padding:0;
+	}
+}
