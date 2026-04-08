@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'connect.php';
 
 //Get the offers query from the database
@@ -28,6 +29,11 @@ $result = mysqli_query($conn,$sql);
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
 					<li><a href="cart.php">Cart</a></li>
+					<?php if(isset($_SESSION['user_id'])):?>
+						<li><a href="logout.php">Logout</a></li>
+					<?php else: ?>
+						<li><a href="login.php">Login</a></li>
+					<?php endif; ?>	
 				</ul>
 				<div class="hamburger">
 					<span></span>
@@ -41,7 +47,11 @@ $result = mysqli_query($conn,$sql);
 	
 	<!-- Content -->
 	<div class="content">
-		
+			<?php if(isset($_SESSION['user_name'])): ?>
+			<div class = "welcome-banner">
+				<p>Welcome back, <strong> <?php echo htmlspecialchars($_SESSION['user_name']); ?></strong>!</p>
+			</div>
+			<?php endif; ?>
 			<h1>Where opportunity Creates Success</h1>
 			
 			<div class="content-text">
