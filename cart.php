@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +23,12 @@
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="#cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart</a></li>
+					<?php if(isset($_SESSION['user_id'])):?>
+						<li><a href="logout.php">Logout</a></li>
+					<?php else: ?>
+						<li><a href="login.php">Login</a></li>
+					<?php endif; ?>	
 				</ul>
 				<div class="hamburger">
 					<span></span>
