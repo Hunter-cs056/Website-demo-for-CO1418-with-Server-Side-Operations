@@ -7,60 +7,11 @@ hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
 });
 
-//array indexed as follows: [0]name, [1]color, [2]price, [3]stock [4]image-src, [5]desc.
-const tshirts = [
-['Legacy T-Shirt','Red','£7.99','good-stock','images/tshirt1.jpg','Perfect for those graduating this year. Get a bargain whilst we have the stock.'],
-['Legacy T-Shirt','Green','£7.99','last-few','images/tshirt2.jpg','Limited stock. Grab these nostalgic items before they make their way onto eBay.'],
-['Legacy T-Shirt','Blue','£7.99','out-of-stock','images/tshirt3.jpg','Sadly we are sold out of this legendary item. Keep an eye out for future stock.'],
-['Legacy T-Shirt','Cyan','£7.99','good-stock','images/tshirt4.jpg','Perfect for those graduating this year. Get a bargain whilst we have the stock.'],
-['Legacy T-Shirt','Magenta','£7.99','out-of-stock','images/tshirt5.jpg','Sadly we are sold out of this legendary item. Keep an eye out for future stock.'],
-['Legacy T-Shirt','Yellow','£7.99','last-few','images/tshirt6.jpg','Limited stock. Grab these nostalgic items before they make their way onto eBay.'],
-['Legacy T-Shirt','Black','£7.99','out-of-stock','images/tshirt7.jpg','Sadly we are sold out of this legendary item. Keep an eye out for future stock.'],
-['Legacy T-Shirt','Grey','£7.99','good-stock','images/tshirt8.jpg','Perfect for those graduating this year. Get a bargain whilst we have the stock.'],
-['Legacy T-Shirt','Burgundy','£7.99','last-few','images/tshirt9.jpg','Limited stock. Grab these nostalgic items before they make their way onto eBay.'],
-];
-
 /* ========================================
     PRODUCT PAGE
    ======================================== */
-const productList= document.getElementById('product-list');
-const stockFilter= document.getElementById('stock-filter');
-if(productList){
-//Render products based on filter
-function renderProducts(filter){
-productList.innerHTML=' ';
-
-//Then we wil loop through the items and give each a div and a class
-tshirts.forEach(([name,color,price,stock,imgSrc,desc],index)=>{
-if(filter!=='all' && stock !== filter)return;
-const card = document.createElement('div');
-card.className='product-itself';
-
-//Apply styles using a template litteral
-card.innerHTML=`
-<img src = "${imgSrc}" alt= "${name} - ${color}">
-<h3>${name} - ${color}</h3>
-<p>${desc}</p>
-<p><strong>${price}</strong></p>
-<p class="stock-status ${stock}">${stock.replace(/-/g, ' ')}</p>
-<a href="item.php" class= "view-button" onclick="sessionStorage.setItem('selectedProduct', ${index})">View More</a>
-${stock !== 'out-of-stock' ?
-`<button class ="product-page-button"onclick="addToCart(${index})">Add to Cart</button>` : ''}
-`;
-
-productList.appendChild(card)
-});
-}
-//Initial load Show all
-renderProducts('all');
-
-//Add eventListener for changes
-if(stockFilter){
-stockFilter.addEventListener('change', (e) =>
-{renderProducts(e.target.value);
-});
-}
-}
+//Products are now rendered server-side via PHP in products.PHP
+//The fitler is also handled in the same way using PHP
 
 //Lets add a back to top button functionality
 const backToTopBtn= document.getElementById('back-to-top');
