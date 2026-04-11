@@ -64,6 +64,13 @@ session_start();
 			</div>
 	</div>
     </footer>
+	<!-- For now we convert ?id= URL param to sessionStorage so the old JS still works.
+	later on I will replace this with a proper PHP database query. -->
+	<?php if(isset($_GET['id'])): ?>
+	<script>
+		sessionStorage.setItem('selectedProduct', <?php echo ((int)$_GET['id']) - 1; ?>);
+	</script>
+	<?php endif; ?>
 	<script src="myScript.js"></script>
 </body>
 </html>
