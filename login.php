@@ -45,6 +45,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 				//Redirect to homepage
 				header('Location: index.php');
 				exit();
+			}else {
+				$error='Invalid email or password';
 			}
 		}else 
 		{
@@ -98,6 +100,13 @@ mysqli_close($conn);
 	<div class="form-container">
 		<h2>Login to your account</h2>
 		
+		<!-- Show a  success message after user successful registration -->
+		<?php if(isset($_GET['registered']) && $_GET['registered'] === '1'): ?>
+			<div class="success-message">
+				Account created successfully!Please log in.
+			</div>
+		<?php endif?>
+		
 		<!--Check for and display any error -->
 		<?php if ($error !== ''): ?>
             <div class="error-message">
@@ -124,7 +133,7 @@ mysqli_close($conn);
 		</form>
 		
 		<!--Display a sign-up button-->
-		<p class="form-link">Dont have an accouunt? <a href="register.php">Register here</a></p>
+		<p class="form-link">Dont have an account? <a href="register.php">Register here</a></p>
 	</div>
 
     <!-- Footer -->
