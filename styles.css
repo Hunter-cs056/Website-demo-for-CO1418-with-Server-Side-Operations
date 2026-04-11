@@ -186,6 +186,27 @@ footer .container .links  a{
 	   margin:0.5em 0;
 	   
    }
+   /* Stock status colors */
+   .stock-status{
+	   font-weight:bold;
+	   text-transform:capitalize;
+	   padding:0.2em 0.5em;
+	   border-radius: 4px;
+	   display:inline-block;
+   }
+   .stock-status.good-stock{
+	   background-color: #d4edda;
+	   color: #155724;
+   }
+   .stock-status.low-stock{
+	   background-color: #fff3cd;
+	   color: #856404;
+   }
+   .stock-status.out-of-stock{
+	   background-color: #f8d7da;
+	   color: #721c24;
+   }   
+   
    /* View more button */
    .view-button{
 	   display:block;
@@ -381,11 +402,136 @@ footer .container .links  a{
    }
    
 /* ========================================
+   LOGIN / REGISTER FORMS
+   ======================================== */
+   .form-container{
+		max-width:420px;
+		margin: 2em auto;
+		padding:2em;
+		background:#C7CBDA;
+		border-radius:8px;
+		border: 1px solid #ccc;
+   }
+   
+    .form-container h2{
+		color: #34516C;
+		text-align:center;
+		margin-bottom:1em;
+	}
+   
+	.form-details{
+		margin-bottom:1em;
+	}
+   
+   .form-details label{
+	   display: block;
+	   margin-bottom: 0.3em;
+	   font-weight:bold;
+   }
+
+	.form-details input{
+		width:100%;
+		padding:0.5em;
+		border:1px solid #999;
+		border-radius:4px;
+		font-size:1em;
+	}
+	
+	.form-button{
+		width:100%;
+		padding:0.6em;
+		background-color: #BE1622;
+		color: white;
+		border:none;
+		border-radius:4px;
+		font-size:1em;
+		font-weight:bold;
+		cursor:pointer;
+		margin-top:0.5em;
+	}
+	
+	.form-button:hover{
+		background-color:darkred;
+	}
+	
+	.form-link {
+		text-align:center;
+		margin-top:1em;
+	}
+	
+	.form-link a{
+		color: #0099D2;
+		font-weight:bold;
+	}
+	
+	.error-message{
+		background:#ffe6e6;
+		color:#cc0000;
+		padding:0.8em;
+		border-radius:4px;
+		margin-bottom:1em;
+		text-align:center;
+	}
+	.error-message ul{
+		margin:0;
+		padding-left:1.2em;
+		text-align:left;
+	}
+	.success-message{
+		background: #e6ffe6;
+		color: #006600;
+		padding: 0.8em;
+		border-radius: 4px;
+		margin-bottom: 1em;
+		text-align:center;
+		font-weight:bold;
+	}
+	.client-error{
+		display:block;
+		color: #cc0000;
+		font-size: 0.85em;
+		margin-top:0.3em;
+	}
+	#password-strength{
+		font-weight: bold;
+		font-size: 0.85em;
+		margin-top:0.3em;
+	}
+	.login-redirect{
+		display:block;
+		margin:0.5em auto;
+		padding:0.5em 1em;
+		background-color: #34516C;
+		color: white;
+		text-decoration: none;
+		border-radius:4px;
+		font-weight:bold;
+		text-align:center;
+	}
+	.login-redirect:hover{
+		background-color:#0099D2;
+	}
+	
+	
+/* ========================================
+   WELCOME BANNER
+   ======================================== */	
+	.welcome-banner{
+		width:100%;
+		color:white;
+		background-color:#34516C;
+		padding: 0.8em 1em;
+		border-radius:8px;
+		text-align:center;
+		margin-top:0.5em;
+	}
+	
+	
+/* ========================================
    MOBILE-APPROACH
    Target: Mobile devices (600px)
    ======================================== */
    
-
 @media (max-width: 600px){
 	
 /* Navigation-bar section*/
@@ -519,4 +665,16 @@ footer .container .links p{
 		margin:0;
 		padding:0;
 	}
+	
+	/* Login/Register forms*/
+	.form-container{
+		margin:1em;
+		padding:1.2em;
+	}
+	
+	/* Welcome-back banner */
+	.welcome-banner{
+		font-size:0.9em;
+	}
+	
 }
