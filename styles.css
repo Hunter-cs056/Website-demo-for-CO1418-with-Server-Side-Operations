@@ -8,7 +8,7 @@
 }
 body{
 	line-height: 1.5;
-	font-family: 'Segoe UI', Tahoma, Ge;eva, Verdana, sans-serif;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-size:1.2em;
 }
 html, body{
@@ -83,7 +83,7 @@ footer{
 }
 .content-text{
 	width:100%;
-	text-align:left:
+	text-align:left;
 }
 /* Videos/Iframes and their parents */
 .contentVid1{
@@ -234,7 +234,7 @@ footer .container .links  a{
 	   border-radius:2em;
 	   color:white;
 	   background-color:#BE1622;
-	   padding:10px 15px;'
+	   padding:10px 15px;
 	   cursor:pointer;
 	   z-index:1000;
 	   transition: opacity 0.3s ease;
@@ -517,16 +517,116 @@ footer .container .links  a{
    WELCOME BANNER
    ======================================== */	
 	.welcome-banner{
-		width:100%;
+		width: 100%;
 		color:white;
-		background-color:#34516C;
+		background-color: #34516C;
 		padding: 0.8em 1em;
 		border-radius:8px;
 		text-align:center;
-		margin-top:0.5em;
+		margin-top: 0.5em;
 	}
 	
 	
+	
+/* ========================================
+   REVIEWS AND STAR RATINGS (inside item.php)
+   ======================================== */		
+	.average-rating{
+		margin:1em 0;
+		text-align:center;
+	}
+	.stars-display{
+		font-size: 1.5em;
+	}
+	.star{
+		color: #ccc;
+	}
+	.star.filled{
+		color:#F2BE1A;
+	}
+   .no-reviews,
+   .no-reviews-msg{	
+		color: #666;
+		font-style:italic;
+		text-align:center;
+   }
+   .reviews-section{
+	   max-width: 800px;
+	   margin: 2em auto;
+	   padding: 0 1em;
+   }
+    .reviews-section h2{
+		color: #34516C;
+		margin-bottom: 0.8em;
+	}
+   .review-card{
+	   background-color: #f5f5f5;
+	   border:1px solid #ccc;
+	   border-radius:8px;
+	   padding:1em 1.2em;
+	   margin-bottom:1em;
+   }
+   .review-header{
+		display:flex;
+		gap:0.5em;
+		justify-content:space-between;
+		align-items:center;
+		flex-wrap:wrap;
+   }
+	.review-header h3{ 
+		color:#BE1622;
+		margin: 0;
+		font-size:1.1em;
+	}
+    .review-header .stars-display{
+		font-size:1.2em;
+	}		
+   .review-meta{
+	   color:#666;
+	   font-size: 0.85em;
+	   margin:0.3em 0;
+   }
+   .review-body{
+	   margin-top:0.5em;
+	   line-height:1.5;
+   }	   
+   .review-form-container{
+		background-color: #C7CBDA;
+		border-radius: 8px;
+		padding:1.5em;
+		margin-top :1.5em;
+   }	   
+   .review-form-container h3{
+		color:#34516C;
+		margin-bottom: 0.8em;
+   }	   
+   .review-form-container textarea{
+		padding:0.5em;
+		width: 100%;
+		border:1px solid #999;
+		border-radius:4px;
+		font-size:1em;
+		font-family:inherit;
+		resize:vertical;
+   }	   
+   .review-form-container select{
+		width:100%;
+		padding:0.5em;
+		border:1px solid #999;
+		border-radius:4px;
+		font-size: 1em;
+		background-color: white;
+   }	   
+   .login-prompt{   
+		text-align:center;
+		margin-top:1em;
+		font-style:italic;
+   }
+   .login-prompt a{
+		color:#0099D2;
+		font-weight:bold;
+   }	   
+   
 /* ========================================
    MOBILE-APPROACH
    Target: Mobile devices (600px)
@@ -675,6 +775,18 @@ footer .container .links p{
 	/* Welcome-back banner */
 	.welcome-banner{
 		font-size:0.9em;
+	}
+	
+	/* Reviews area */
+	.reviews-section{
+		margin:1em;
+	}		
+	.review-header{
+		flex-direction:column;
+		align-items:flex-start;
+	}
+	.review-form-container{
+		padding:1em;
 	}
 	
 }
