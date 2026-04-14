@@ -35,56 +35,33 @@ backToTopBtn.addEventListener('click', ()=>{
 /* ========================================
     ITEM PAGE
    ======================================== */
-//Use the saved index
-const selectedIndex = sessionStorage.getItem('selectedProduct');
-
-//Use the container
-const detailContainer = document.getElementById('product-detail');
-if(detailContainer){
-	if(selectedIndex !== null){
-	//Destructure product data
-	const[name,color,price,stock,imgSrc,desc] = tshirts[selectedIndex];
-	//Load the Product 
-	detailContainer.innerHTML=`
-	<div class="product-detail-card">
-	<img src="${imgSrc}" alt="${name} - ${color}">
-	<h2>${name} - ${color}</h2>
-	<p>${desc}</p>
-	<p><strong>${price}</strong></p>
-	<p class="stock-status ${stock}"> ${stock.replace(/-/g, ' ')}</p>
-	${stock !== 'out-of-stock' ?
-	`<button onclick="addToCart(${selectedIndex})">Add to Cart</button>` : '' }
-	</div>
-	`;
-	}
-	else	{
-	detailContainer.innerHTML = '<p> No product selected</p>';
-	}}
+//The item page is now fully server-side rendered using php in item.php
+//This is done using a database query based on the GET id parameter
 /* ========================================
     ADD TO CART BUTTON'S FUNCTION
    ======================================== */
-function addToCart(index){
-	//Access the product data from the array
-	const[name,color,price,stock,imgSrc,desc]=tshirts[index];
+function addToCart(product){
+	//Product is always an object now(built server-side via json_encode in php)
+	const {id, name, price, stock, imgSrc, desc} = product;
 	//Load cart from our localstorage or start with an empty array
 	const cart = JSON.parse(localStorage.getItem('cart')) || [];
-	//Create a unique key to hold the product's  name + color combo
-	const key=`${name}-${color}`;
+	//Create a unique key to hold the product id
+	const key = `product-${id}`;
 	//Search our cart for the recently added product(return-1 if not found or the number otherwise)
 	const existingIndex = cart.findIndex(item => item.key === key);
-	//Now check if it already exist and increase its quantity
+	
+	//Now check if it already exist and increase its quantity,otherwise push a new item
 	if(existingIndex !== -1){
 		cart[existingIndex].quantity += 1;
 	}
-	//Now if the product does not exist, we add it with quantity 1
 	else {
-		const item = {key, index, name, color, price, stock, imgSrc, desc, quantity:1};
+		const item = {key, id, name, price, stock, imgSrc, desc, quantity:1};
 		cart.push(item);
 	}
 	//Save the updated cart to localstorage
 	localStorage.setItem('cart',JSON.stringify(cart));
 	//Create alert box
-	alert(`${name} - ${color} has been added to your Cart!`);
+	alert(`${name} has been added to your Cart!`);
 }
 /* ========================================
    CART PAGE(DISPLAY CART ITEMS)
@@ -127,12 +104,12 @@ function renderCart(){
 		//Load inside each row
 		row.innerHTML=`
 		<div class="cart-cell">
-			<img src="${item.imgSrc}" alt="${item.name} - ${item.color}" class="cart-image">
+			<img src="${item.imgSrc}" alt="${item.name}" class="cart-image">
 		</div>
 		<div class="cart-cell">
-			<span>${item.name} - ${item.color}</span>
+			<span>${item.name}</span>
 			<br>
-			<a href="item.php" class="view-button" onclick="sessionStorage.setItem('selectedProduct', ${item.index})">View More</a>
+			<a href="item.php?id=${item.id}" class="view-button">View More</a>
 		</div>
 		<div class="cart-cell">
 			<span>${item.price}</span>
