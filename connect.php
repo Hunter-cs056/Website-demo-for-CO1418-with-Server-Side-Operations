@@ -1,9 +1,9 @@
 <?php
 //Create variables for our credentials
 $host="localhost";
-$username="mphilippou4";
-$password="PjpSztrCm5";
-$database="mphilippou4";
+$username="x";
+$password="x";
+$database="x";
 
 //Create connection using our credentials
 $conn = mysqli_connect($host,$username,$password,$database);
