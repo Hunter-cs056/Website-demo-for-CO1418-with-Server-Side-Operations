@@ -52,7 +52,7 @@ session_start();
 		<div id="cart-items"></div>
 		<p id="empty-cart">Your cart is empty</p>
 		<div class="cart-footer">
-			<button id="empty-cart-buttton" onclick="emptyCart()">Empty basket</button>
+			<button id="empty-cart-button" onclick="emptyCart()">Empty basket</button>
 			<div class="discount code">
 				<input type="text" id="code-input" placeholder="Enter offer code"> 
 				<button id="discount-button" onclick="applyCode()">Apply</button>
