@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once 'connect.php';
+session_start();
 require_once 'cart_helper.php';
 
 //First we read the filter value from the URL, which is 'all' by defualt
