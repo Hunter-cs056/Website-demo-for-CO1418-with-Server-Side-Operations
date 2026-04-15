@@ -68,7 +68,7 @@ elseif($action=== 'update'){
 }
 //Implement the remove button functionality that removes the item from the cart
 elseif($action === 'remove'){
-	$product_id = (int)($_POST['product_id'] ?? 0);
+	$product_id= (int)($_POST['product_id'] ?? 0);
 	if($product_id > 0 && isset($cart[$product_id])){
 		unset($cart[$product_id]);
 		saveCart($cart);
@@ -76,7 +76,33 @@ elseif($action === 'remove'){
 }
 elseif($action === 'empty'){
 	saveCart([]);
+	clearDiscountCode(); //When the basket is wiped also remove applied discount codes
 }
+//Apply discount code which is server-side validated against tbl_offers
+elseif($action === 'apply_code'){
+	$code =strtoupper(trim($_POST['discount_code'] ?? ''));
+	if($code === ''){
+		$_SESSION['cart_message'] = 'Please enter a discount code.';
+		$_SESSION['cart_message_type'] = 'error';
+	}else {
+		$valid= validateDiscountCode($conn, $code);
+		if($valid){
+			saveDiscountCode($valid['code']);
+			$_SESSION['cart_message'] = 'Code "' . $valid['code'] . '" applied — ' . (int)$valid['discount_pct'] . '% off!';
+			$_SESSION['cart_message_type']= 'success';
+		}else  {
+			$_SESSION['cart_message'] = 'Invalid or expired discount code.';
+			$_SESSION['cart_message_type'] ='error';
+		}
+	}
+}
+//Action that lets the user remove a previously applied discount code
+elseif($action === 'remove_code'){
+	clearDiscountCode();
+	$_SESSION['cart_message']= 'Discount code removed.';
+	$_SESSION['cart_message_type']= 'success';
+}
+
 mysqli_close($conn);
 header('Location: ' . $redirect);
 exit();
