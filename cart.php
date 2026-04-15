@@ -1,5 +1,36 @@
 <?php
 session_start();
+require_once 'cart_helper.php';
+require_once 'connect.php';
+
+//Read the cart cookie
+$cart= getCart();
+$cart_total=0;
+$cart_items= [];
+
+//If the cart is not empty, query the datavase for each product(a signle query witht IN clause)
+if(!empty($cart)){
+	//Now we will create  safe IN clausse - cast all keys to int so we dont take in raw cookie values
+	$ids= array_map('intval', array_keys($cart));	
+	$placeholders =implode(',', array_fill(0, count($ids), '?'));	
+	$types=str_repeat('i', count($ids));	
+	$stmt =mysqli_prepare($conn, "SELECT * FROM tbl_products WHERE product_id IN ($placeholders)");	
+	mysqli_stmt_bind_param($stmt, $types, ...$ids);
+	mysqli_stmt_execute($stmt);	
+	$result= mysqli_stmt_get_result($stmt);	
+	
+	while($row = mysqli_fetch_assoc($result)){
+		$pid = (int)$row['product_id'];
+		$qty = (int)$cart[$pid];
+		$subtotal =(float)$row['product_price'] * $qty;
+		$cart_total +=$subtotal;
+		$row['quantity'] = $qty;
+		$row['subtotal']= $subtotal;
+		$cart_items[] = $row;
+	}
+	mysqli_stmt_close($stmt);	
+}
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +54,7 @@ session_start();
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+						<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<?php if(isset($_SESSION['user_id'])):?>
 						<li><a href="logout.php">Logout</a></li>
 					<?php else: ?>
@@ -43,22 +74,75 @@ session_start();
 	<!-- Content -->
 	<div id="cart-container">
 		<h2 id='Cart-title'>Shopping Cart</h2>
+		<!-- If the cart is empty display a text and a link to redirect the user to continue shopping -->
+		<?php if(empty($cart_items)): ?>
+		<p id="empty-cart">Your cart is empty</p>
+		<div style="text-align:center;margin-top:1em;">
+			<a href="products.php" class="view-button">Continue shopping</a>
+		</div>
+		<!-- If the cart is not empty display the cart items -->
+		<?php else: ?>		
 		<div class="cart-header">
 			<span>Item</span>
 			<span>Name</span>
 			<span>Price</span>
 			<span>Quantity</span>
+			<span></span>
 		</div>
-		<div id="cart-items"></div>
-		<p id="empty-cart">Your cart is empty</p>
+		<div id="cart-items">
+			<?php foreach($cart_items as $item): ?>
+				<div class="cart-row">
+					<div class="cart-cell">
+						<img src="<?php echo htmlspecialchars($item['product_src']); ?>" alt="<?php echo htmlspecialchars($item['product_title']); ?>" class="cart-image">
+					</div>
+					
+					<div class="cart-cell">
+						<span><?php echo htmlspecialchars($item['product_title']); ?></span><br>
+						<a href="item.php?id=<?php echo (int)$item['product_id']; ?>" class="view-button">View More</a>
+					</div>
+					
+					<div class="cart-cell">
+						<span>£<?php echo number_format($item['product_price'], 2); ?></span>
+					</div>
+					
+					<div class="cart-cell">
+						<form method="POST" action="cart_actions.php" style="display:inline;">
+							<input type="hidden" name="action" value="update">
+							<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
+							<input type="number" name="quantity" class="qty-input" min="1" value="<?php echo $item['quantity']; ?>" aria-label="Quantity for <?php echo htmlspecialchars($item['product_title']); ?>">
+							<button type="submit" class="qty-btn">Update</button>
+						</form>
+					</div>
+					
+					<div class="cart-cell">
+						<form method="POST" action="cart_actions.php" style="display:inline;">
+							<input type="hidden" name="action" value="remove">
+							<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
+							<button type="submit" class="remove-btn">Remove</button>
+						</form>
+					</div>
+					
+				</div>
+			<?php endforeach; ?>
+		</div>
+		
 		<div class="cart-footer">
-			<button id="empty-cart-button" onclick="emptyCart()">Empty basket</button>
-			<div class="discount code">
-				<input type="text" id="code-input" placeholder="Enter offer code"> 
-				<button id="discount-button" onclick="applyCode()">Apply</button>
+			<form method="POST" action="cart_actions.php" style="display:inline;">
+				<input type="hidden" name="action" value="empty">
+				<button type="submit" id="empty-cart-buttton">Empty basket</button>
+			</form>
+			
+			<div class="discount-code">
+				<input type="text" id="code-input" placeholder="Enter offer code" disabled>
+				<button id="discount-button" disabled>Apply</button>
 			</div>
-			<div id="cart-total"></div>
+			<div id="cart-total"><strong>Total: £<?php echo number_format($cart_total, 2); ?></strong></div>
 		</div>
+		
+		<div style="text-align:center;margin-top:1em;">
+			<a href="products.php" class="view-button">Continue shopping</a>
+		</div>
+		<?php endif; ?>
 	</div>
     <!-- Footer -->
     <footer>
