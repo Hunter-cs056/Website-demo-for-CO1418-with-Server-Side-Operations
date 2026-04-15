@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'cart_helper.php';
 
 //Retrieve the product ID from the URL using the GET form method
 $product_id= isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -128,7 +129,7 @@ function renderStars($rating){
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<?php if(isset($_SESSION['user_id'])):?>
 						<li><a href="logout.php">Logout</a></li>
 					<?php else: ?>
@@ -155,17 +156,7 @@ function renderStars($rating){
 				<a href="products.php" class="view-button">Back to products</a>
 			</div>
 			
-		<?php else:	
-			//If the product exists, create a JS-safe object to addToCart
-			$product_js=htmlspecialchars(json_encode([
-			'id'=> (int)$product['product_id'],
-			'name'=> $product['product_title'],
-			'price'=> '£' . number_format($product['product_price'], 2),
-			'stock'=> $product['product_stock'],
-			'imgSrc'=> $product['product_src'],
-			'desc'=> $product['product_desc']
-			]), ENT_QUOTES);
-		?>	
+		<?php else:	?>	
 			<!-- Item -->
 			<div class="product-detail-card" >
 				<img src="<?php echo htmlspecialchars($product['product_src']); ?>" alt="<?php echo htmlspecialchars($product['product_title']); ?>">
@@ -187,7 +178,13 @@ function renderStars($rating){
 				<!-- Display an add to cart button only for logged-in users and in-stock items -->
 				<?php if($product['product_stock'] !== 'out-of-stock'): ?>
 					<?php if(isset($_SESSION['user_id'])): ?>
-						<button onclick="addToCart(<?php echo $product_js; ?>)">Add to Cart</button>
+						<!-- 'Add to cart' button POSTs to cart_actions.php (cart now works with server-side cookies) -->
+						<form method="POST" action="cart_actions.php" style="display:inline;">
+							<input type="hidden" name="action" value="add">
+							<input type="hidden" name="product_id" value="<?php echo (int)$product['product_id']; ?>">
+							<input type="hidden" name="redirect" value="item.php?id=<?php echo (int)$product['product_id']; ?>">
+							<button type="submit" >Add to Cart</button>
+						</form>
 					<?php else: ?>
 						<a href="login.php" class="login-redirect">Login to add to cart</a>
 					<?php endif; ?>
@@ -318,7 +315,7 @@ function renderStars($rating){
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
