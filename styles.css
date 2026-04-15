@@ -643,7 +643,186 @@ footer .container .links  a{
 		color:#0099D2;
 		font-weight:bold;
    }	   
-   
+
+/* ========================================
+   CART DISCOUNT + TOTALS + CHECKOUT
+   ======================================== */
+	.cart-discount{
+		padding:0 0.5em;
+		justify-content:flex-end;
+		display: flex;
+		margin:1.5em auto 0.5em auto;	
+		max-width :800px;
+	}
+	.discount-form{
+		display:flex;
+		gap:0.5em;
+		align-items: center;
+	}
+	.discount-form input[type="text"]{
+		padding :0.4em 0.5em;
+		border:1px solid #999;
+		border-radius:4px;
+		font-size:0.95em;
+	}
+	.discount-form button{
+		padding:0.4em 1em;
+		border-radius: 4px;
+		cursor:pointer;
+		border:none;
+		background-color:#339933;
+		color:white;
+		font-weight:bold;
+	}
+	.discount-form button:hover{
+		background-color:#267326;
+	}
+	
+	.discount-applied{
+		background-color:#e6ffe6;
+		color:#006600;
+		border:1px solid #99cc99;
+		border-radius:4px;
+		padding: 0.5em 1em;
+		display:flex;
+		align-items:center;
+		gap :1em;
+	}
+	.discount-remove-btn{
+		background-color:#BE1622;
+		font-size:0.85em;
+		cursor:pointer;
+		padding:0.3em 0.7em;
+		color:white;
+		border:none;
+		border-radius:4px;
+	}
+	.discount-remove-btn:hover{
+		background-color:darkred;
+	}
+
+	.cart-totals{
+		max-width:800px;
+		gap:1em;
+		padding-top: 1em;
+		border-top:1px solid lightgray;
+		align-items:flex-start;
+		justify-content:space-between;
+		display:flex;
+		margin:1em auto;
+	}
+	.cart-actions-left{
+		flex:0 0 auto;
+	}
+
+	.cart-summary{
+		flex:1;
+		text-align:right;
+	}
+	.cart-summary p{
+		margin: 0.3em 0;
+	}
+
+	.discount-line{
+		color:#006600;
+	}
+	.grand-total{
+		font-size:1.2em;
+		margin-top:0.4em !important;
+		padding-top:0.4em;
+		border-top:1px solid lightgray;
+		color:#34516C;
+	}	
+	.checkout-button{
+		cursor:pointer;
+		font-weight:bold;
+		font-size:1em;
+		border-radius:4px;
+		border:none;
+		color:white;
+		background-color:#34516C;
+		padding:0.6em 1.4em;
+		margin-top:0.6em;
+		display:inline-block;
+	}
+	
+	.checkout-button:hover{
+		background-color: #0099D2;
+	}
+	
+	
+/* ========================================
+   ORDER CONFIRMATION(inside checkout.php)
+   ======================================== */	
+	.order-confirmation{
+		text-align: center;
+		border-radius:8px;
+		border: 1px solid #ccc;
+		background-color :#C7CBDA;
+		padding:2em;
+		margin:2em auto;
+		max-width:800px;
+	}
+	.order-confirmation h1{
+		color:#34516C;
+		margin-bottom:0.3em;
+	}
+	.order-confirmation h2{
+		color:#34516C;
+		margin-top: 1.5em;
+		margin-bottom:0.5em;
+	}	
+	.order-number{
+		font-size :1.3em;
+		font-weight:bold;
+		color :#BE1622;
+		margin:0.3em 0;
+	}
+	.order-date{
+		color:#666;
+		font-size:0.95em;
+		margin-bottom:1em;
+	}
+	.order-table{
+		width:100%;
+		overflow :hidden;
+		border-radius:4px;
+		background-color:white;
+		margin: 1em 0;
+		border-collapse:collapse;
+	}
+	
+	.order-table th{
+		background-color:#34516C;
+		color: white;
+		padding:0.6em;
+		text-align:left;
+	}
+	.order-table td{
+		padding:0.6em;
+		border-bottom:1px solid #eee;
+	}
+	.order-table tbody tr:last-child td{
+		border-bottom:none;
+	}
+	.order-totals{
+		text-align:right;
+		margin:1em 0;
+		padding:0.5em 1em;
+		border-radius: 4px;
+		background-color:white;
+	}
+	
+	.order-totals p{
+		margin: 0.3em 0;
+	}
+	
+	.thank-you-msg{
+		margin:1.5em 0 1em 0;
+		font-style:italic;
+		color: #34516C;
+	}
+	
 /* ========================================
    MOBILE-APPROACH
    Target: Mobile devices (600px)
@@ -804,6 +983,33 @@ footer .container .links p{
 	}
 	.review-form-container{
 		padding:1em;
+	}
+	
+	/*Cart area + order area*/
+	.cart-discount{
+		margin:1em;
+		justify-content:center;
+	}
+	.cart-totals{
+		flex-direction:column;
+		align-items :stretch;
+		margin: 1em;
+	}
+	.cart-summary{
+		text-align:center;
+	}
+	
+	.cart-actions-left{
+		text-align:center;
+	}
+	.order-confirmation{
+		margin:1em;
+		padding:1em;
+	}
+	
+	.order-table th, .order-table td{
+		font-size: 0.9em;
+		padding: 0.4em;
 	}
 	
 }
