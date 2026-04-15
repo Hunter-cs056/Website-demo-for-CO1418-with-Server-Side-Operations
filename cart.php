@@ -1,7 +1,7 @@
 <?php
+require_once 'connect.php';
 session_start();
 require_once 'cart_helper.php';
-require_once 'connect.php';
 
 //Read the cart cookie
 $cart= getCart();
