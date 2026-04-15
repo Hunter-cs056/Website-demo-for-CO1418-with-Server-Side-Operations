@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once 'connect.php';
+session_start();
 require_once 'cart_helper.php';
 
 //Get the offers query from the database
