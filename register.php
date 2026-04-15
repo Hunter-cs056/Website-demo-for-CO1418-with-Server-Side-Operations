@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'cart_helper.php';
 
 //Check if we are already logged-in and redirect to homepage if we are
 if(isset($_SESSION['user_id'])){
@@ -122,7 +123,7 @@ mysqli_close($conn);
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<li><a href="login.php">Login</a></li>
 				</ul>
 				<div class="hamburger">
@@ -304,7 +305,7 @@ mysqli_close($conn);
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
