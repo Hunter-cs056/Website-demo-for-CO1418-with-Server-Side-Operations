@@ -8,6 +8,12 @@ $cart= getCart();
 $cart_total=0;
 $cart_items= [];
 
+//Check for any flash message left by cart_actions.php and then clear it 
+$flash_message= $_SESSION['cart_message'] ?? '';
+$flash_type=$_SESSION['cart_message_type'] ?? '';
+unset($_SESSION['cart_message'], $_SESSION['cart_message_type']);
+
+
 //If the cart is not empty, query the datavase for each product(a signle query witht IN clause)
 if(!empty($cart)){
 	//Now we will create  safe IN clausse - cast all keys to int so we dont take in raw cookie values
@@ -30,6 +36,15 @@ if(!empty($cart)){
 	}
 	mysqli_stmt_close($stmt);	
 }
+
+//Re-validate any applied discount code on every render(this is done to prevent manimupated cookies bypassing the offers table check)
+$applied_discount= validateDiscountCode($conn, getDiscountCode());
+$discount_amount = 0;
+if($applied_discount && $cart_total > 0){
+	$discount_amount = $cart_total * ($applied_discount['discount_pct'] / 100);
+}
+$grand_total = $cart_total - $discount_amount;
+
 mysqli_close($conn);
 ?>
 <!DOCTYPE html>
@@ -74,6 +89,14 @@ mysqli_close($conn);
 	<!-- Content -->
 	<div id="cart-container">
 		<h2 id='Cart-title'>Shopping Cart</h2>
+		
+		<!-- Display any flash message left by cart_actions.php -->
+		<?php if($flash_message !== ''): ?>
+			<div class="<?php echo $flash_type === 'success' ? 'success-message' : 'error-message'; ?>" style="max-width:800px;margin:1em auto;">
+				<?php echo htmlspecialchars($flash_message); ?>
+			</div>
+		<?php endif; ?>
+		
 		<!-- If the cart is empty display a text and a link to redirect the user to continue shopping -->
 		<?php if(empty($cart_items)): ?>
 		<p id="empty-cart">Your cart is empty</p>
@@ -126,17 +149,55 @@ mysqli_close($conn);
 			<?php endforeach; ?>
 		</div>
 		
-		<div class="cart-footer">
-			<form method="POST" action="cart_actions.php" style="display:inline;">
-				<input type="hidden" name="action" value="empty">
-				<button type="submit" id="empty-cart-buttton">Empty basket</button>
-			</form>
-			
-			<div class="discount-code">
-				<input type="text" id="code-input" placeholder="Enter offer code" disabled>
-				<button id="discount-button" disabled>Apply</button>
+		<!-- Discount code area -->
+		<div class="cart-discount">
+			<?php if($applied_discount): ?>
+				<!-- If a code is currently applied — show it with a remove button -->
+				<div class="discount-applied">
+					<span>✓ Code <strong><?php echo htmlspecialchars($applied_discount['code']); ?></strong> applied (<?php echo (int)$applied_discount['discount_pct']; ?>% off)</span>
+					<form method="POST" action="cart_actions.php" style="display:inline;">
+						<input type= "hidden" name="action" value="remove_code">
+						<button type="submit" class="discount-remove-btn">Remove</button>
+					</form>	
+				</div>
+				<?php else: ?>
+					<!-- If no code is applied — show the input form -->
+					<form method="POST" action="cart_actions.php" class="discount-form">
+						<input type="hidden" name="action" value="apply_code">
+						<input type="text" id="code-input" name="discount_code" placeholder="Enter offer code" maxlength="50" required>
+						<button type="submit" id="discount-button">Apply</button>
+					</form>
+				<?php endif; ?>	
+		</div>
+		
+		<!-- Total price breakdown -->
+		<div class="cart-totals">
+			<div class="cart-actions-left">
+				<form method="POST" action="cart_actions.php" style="display:inline;">
+					<input type="hidden" name="action" value="empty">
+					<button type="submit" id="empty-cart-buttton">Empty basket</button>
+				</form>
 			</div>
-			<div id="cart-total"><strong>Total: £<?php echo number_format($cart_total, 2); ?></strong></div>
+			
+			<div class="cart-summary">
+				<p>Subtotal: <strong>£<?php echo number_format($cart_total, 2); ?></strong></p>
+				<?php if($discount_amount > 0): ?>
+					<p class="discount-line">Discount (<?php echo htmlspecialchars($applied_discount['code']); ?>
+					&mdash; <?php echo (int)$applied_discount['discount_pct']; ?>% off): <strong>-£<?php echo number_format($discount_amount, 2); ?></strong></p>
+				<?php endif; ?>
+				<p class="grand-total"><strong>Total: £<?php echo number_format($grand_total, 2); ?></strong></p>
+				
+				
+				<!-- Checkout button for logged-in users -->
+				<?php if(isset($_SESSION['user_id'])): ?>
+					<form method="POST" action="checkout.php" style="display:inline;">
+						<input type="hidden" name="action" value="place_order">
+						<button type="submit" class="checkout-button">Checkout</button>
+					</form>	
+				<?php else: ?>
+					<a href="login.php" class="login-redirect">Login to checkout</a>
+				<?php endif; ?>
+			</div>
 		</div>
 		
 		<div style="text-align:center;margin-top:1em;">
@@ -155,7 +216,7 @@ mysqli_close($conn);
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
