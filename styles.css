@@ -512,6 +512,23 @@ footer .container .links  a{
 		background-color:#0099D2;
 	}
 	
+/* ========================================
+   CART BADGE (navbar item count)
+   ======================================== */	
+	.cart-badge{
+		display: inline-block;
+		background-color:#F2BE1A;
+		color:#34516C;
+		border-radius: 50%;
+		padding:0.05em 0.45em;
+		font-size :0.75em;
+		font-weight:bold;	
+		margin-left: 0.3em;
+		min-width:1.4em;
+		text-align:center;
+		line-height:1.4;
+		vertical-align:middle;
+	}	
 	
 /* ========================================
    WELCOME BANNER
