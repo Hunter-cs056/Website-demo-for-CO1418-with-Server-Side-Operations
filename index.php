@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'cart_helper.php';
 
 //Get the offers query from the database
 $sql="SELECT * FROM tbl_offers";
@@ -28,7 +29,7 @@ $result = mysqli_query($conn,$sql);
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<?php if(isset($_SESSION['user_id'])):?>
 						<li><a href="logout.php">Logout</a></li>
 					<?php else: ?>
@@ -108,7 +109,7 @@ $result = mysqli_query($conn,$sql);
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
