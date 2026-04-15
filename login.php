@@ -1,14 +1,16 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'cart_helper.php';
 
 //Check if the user is already logged in and redirect him to the homepage
 if(isset($_SESSION['user_id'])){
 	header('Location: index.php');
 	exit();
 }
-//Create an empty error variable to use later
+//Create an empty error variable to use later to prevent undefined-variable warning on a fresh GET
 $error='';
+$email = '';
 
 //Form submission proccess
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -79,7 +81,7 @@ mysqli_close($conn);
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<?php if(isset($_SESSION['user_id'])):?>
 						<li><a href="logout.php">Logout</a></li>
 					<?php else: ?>
@@ -147,7 +149,7 @@ mysqli_close($conn);
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
