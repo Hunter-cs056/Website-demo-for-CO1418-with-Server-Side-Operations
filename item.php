@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once 'connect.php';
+session_start();
 require_once 'cart_helper.php';
 
 //Retrieve the product ID from the URL using the GET form method
