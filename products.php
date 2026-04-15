@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'cart_helper.php';
 
 //First we read the filter value from the URL, which is 'all' by defualt
 $filter = $_GET['filter'] ?? 'all';
@@ -44,7 +45,7 @@ $result= mysqli_stmt_get_result($stmt);
 				<ul class="nav-menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="products.php">Products</a></li>
-					<li><a href="cart.php">Cart</a></li>
+					<li><a href="cart.php">Cart <?php echo getCartBadge(); ?></a></li>
 					<?php if(isset($_SESSION['user_id'])):?>
 						<li><a href="logout.php">Logout</a></li>
 					<?php else: ?>
@@ -81,15 +82,6 @@ $result= mysqli_stmt_get_result($stmt);
 			<?php
 			if(mysqli_num_rows($result) > 0){
 				while($row =mysqli_fetch_assoc($result)){
-					//Now we create a JS-safe object literal so addToCart can use it inline
-					$product_js= htmlspecialchars(json_encode([
-					'id' => (int)$row['product_id'],
-					'name' => $row['product_title'],
-					'price' => '£' . number_format($row['product_price'],2),
-					'stock' => $row['product_stock'],
-					'imgSrc' => $row['product_src'],
-					'desc' => $row['product_desc'] ])
-					,ENT_QUOTES);
 					?>
 				<div class="product-itself">
 					<img src="<?php echo htmlspecialchars($row['product_src']); ?>" alt="<?php echo htmlspecialchars($row['product_title']); ?>">
@@ -100,7 +92,14 @@ $result= mysqli_stmt_get_result($stmt);
 					<a href="item.php?id=<?php echo (int)$row['product_id']; ?>" class="view-button">View More</a>
 					<?php if($row['product_stock'] !== 'out-of-stock'): ?>
 						<?php if(isset($_SESSION['user_id'])): ?>
-							<button class="product-page-button" onclick="addToCart(<?php echo $product_js; ?>)">Add to Cart</button>
+						<!-- 'Add to cart' button POSTs to cart_actions.php (cart now works with server-side cookies) -->
+						<form method="POST" action="cart_actions.php" style="display:inline;">
+							<input type="hidden" name="action" value="add">
+							<input type="hidden" name="product_id" value="<?php echo (int)$row['product_id']; ?>">
+							<input type="hidden" name="redirect" value="products.php">
+							<button type="submit" class="product-page-button" >Add to Cart</button>
+						</form>
+						<!-- Dont let a guest use "Add to cart" button,instead redirect him to log in -->
 						<?php else: ?>
 							<a href="login.php" class="product-page-button login-redirect">Login to add</a>
 						<?php endif; ?>	
@@ -132,7 +131,7 @@ $result= mysqli_stmt_get_result($stmt);
 			<div class="links">
 				<h3>Contact</h3>
 				<p><a href="mailto:info@uclancyprus.ac.cy">info@uclancyprus.ac.cy</a></p>
-				<p>Call us: +357 24694000<p>
+				<p>Call us: +357 24694000</p>
 			</div>
 			<div class="links">
 				<h3>Location</h3>
