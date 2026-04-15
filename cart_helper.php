@@ -39,4 +39,54 @@
 		}
 		return '';
 	}
+	
+	/* ============================================================
+	   Discount-code helpers (Phase 5b)
+	   The applied code lives in its own cookie alongside the cart,
+	   but we re-validate it against tbl_offers on every render so
+	   tampered/expired codes never reach the totals calculation.
+	   ============================================================ */
+	
+	//Read the applied discount code from the cookie (uppercase, trimmed). Returns '' if none
+	function getDiscountCode(){
+		if(!isset($_COOKIE['discount_code']) || $_COOKIE['discount_code'] === ''){
+			return '';
+		}
+		return strtoupper(trim($_COOKIE['discount_code']));
+	}
+	
+	//Save the discount code in a cookie with the same 30-day expiry as the cart
+	function saveDiscountCode($code){
+		setcookie('discount_code', $code, time() + (60*60*24*30), '/');
+	}
+	
+	//Clear the discount code by setting an expired cookie
+	function clearDiscountCode(){
+		setcookie('discount_code', '', time() - 3600, '/');
+	}
+	
+	//Validate a discount code against tbl_offers using a prepared statement
+	//Returns ['code'=>..., 'discount_pct'=>..., 'title'=>...] or null if invalid
+	//Pass an open mysqli connection
+	function validateDiscountCode($conn, $code){
+		if($code === ''){
+			return null;
+		}
+		$stmt = mysqli_prepare($conn, "SELECT offer_code, offer_discount, offer_title FROM tbl_offers WHERE offer_code = ? AND offer_discount IS NOT NULL LIMIT 1");
+		mysqli_stmt_bind_param($stmt, 's', $code);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+		$row = mysqli_fetch_assoc($result);
+		mysqli_stmt_close($stmt);
+		if(!$row){
+			return null;
+		}
+		//Clamp the discount % to a sensible range so a bad DB value can't make the total go negative
+		$pct = max(0, min(100, (float)$row['offer_discount']));
+		return [
+			'code' => $row['offer_code'],
+			'discount_pct' => $pct,
+			'title' => $row['offer_title']
+		];
+	}
 ?>
