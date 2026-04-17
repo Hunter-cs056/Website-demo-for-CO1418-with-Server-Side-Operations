@@ -1,0 +1,8 @@
+# Custom 404 page for non-php requests
+ErrorDocument 404 /~mphilippou4/Semester2_Web_Tech/Maximos_Philippou/404.php
+
+# Catch non-existent  .php requests and intercepts before ErrorDocument fires so the custom 404 page displays
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule \.php$ /~mphilippou4/Semester2_Web_Tech/Maximos_Philippou/404.php [L]
