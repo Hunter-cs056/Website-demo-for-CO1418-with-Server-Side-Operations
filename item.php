@@ -183,7 +183,7 @@ function renderStars($rating){
 							<input type="hidden" name="action" value="add">
 							<input type="hidden" name="product_id" value="<?php echo (int)$product['product_id']; ?>">
 							<input type="hidden" name="redirect" value="item.php?id=<?php echo (int)$product['product_id']; ?>">
-							<button type="submit" >Add to Cart</button>
+							<button type="submit" aria-label="Add <?php echo htmlspecialchars($product['product_title']); ?> to cart">Add to Cart</button>
 						</form>
 					<?php else: ?>
 						<a href="login.php" class="login-redirect">Login to add to cart</a>
