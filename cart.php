@@ -14,9 +14,9 @@ $flash_type=$_SESSION['cart_message_type'] ?? '';
 unset($_SESSION['cart_message'], $_SESSION['cart_message_type']);
 
 
-//If the cart is not empty, query the datavase for each product(a signle query witht IN clause)
+//If the cart is not empty, query the database for each product(a signle query with IN clause)
 if(!empty($cart)){
-	//Now we will create  safe IN clausse - cast all keys to int so we dont take in raw cookie values
+	//Now we will create  safe IN clause - cast all keys to int so we dont take in raw cookie values
 	$ids= array_map('intval', array_keys($cart));	
 	$placeholders =implode(',', array_fill(0, count($ids), '?'));	
 	$types=str_repeat('i', count($ids));	
@@ -37,7 +37,7 @@ if(!empty($cart)){
 	mysqli_stmt_close($stmt);	
 }
 
-//Re-validate any applied discount code on every render(this is done to prevent manimupated cookies bypassing the offers table check)
+//Re-validate any applied discount code on every render(this is done to prevent manipulated cookies bypassing the offers table check)
 $applied_discount= validateDiscountCode($conn, getDiscountCode());
 $discount_amount = 0;
 if($applied_discount && $cart_total > 0){
@@ -52,7 +52,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Shopping Cart</title>
     <link rel="stylesheet" href="styles.css">
 	
 </head>
@@ -133,7 +133,7 @@ mysqli_close($conn);
 							<input type="hidden" name="action" value="update">
 							<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
 							<input type="number" name="quantity" class="qty-input" min="1" value="<?php echo $item['quantity']; ?>" aria-label="Quantity for <?php echo htmlspecialchars($item['product_title']); ?>">
-							<button type="submit" class="qty-btn">Update</button>
+							<button type="submit" class="qty-btn" aria-label="Update quantity for <?php echo htmlspecialchars($item['product_title']); ?>">Update</button>
 						</form>
 					</div>
 					
@@ -141,7 +141,7 @@ mysqli_close($conn);
 						<form method="POST" action="cart_actions.php" style="display:inline;">
 							<input type="hidden" name="action" value="remove">
 							<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
-							<button type="submit" class="remove-btn">Remove</button>
+							<button type="submit" class="remove-btn" aria-label="Remove <?php echo htmlspecialchars($item['product_title']); ?> from cart">Remove</button>
 						</form>
 					</div>
 					
@@ -157,14 +157,14 @@ mysqli_close($conn);
 					<span>✓ Code <strong><?php echo htmlspecialchars($applied_discount['code']); ?></strong> applied (<?php echo (int)$applied_discount['discount_pct']; ?>% off)</span>
 					<form method="POST" action="cart_actions.php" style="display:inline;">
 						<input type= "hidden" name="action" value="remove_code">
-						<button type="submit" class="discount-remove-btn">Remove</button>
+						<button type="submit" class="discount-remove-btn" aria-label="Remove discount code">Remove</button>
 					</form>	
 				</div>
 				<?php else: ?>
 					<!-- If no code is applied — show the input form -->
 					<form method="POST" action="cart_actions.php" class="discount-form">
 						<input type="hidden" name="action" value="apply_code">
-						<input type="text" id="code-input" name="discount_code" placeholder="Enter offer code" maxlength="50" required>
+						<input type="text" id="code-input" name="discount_code" placeholder="Enter offer code" maxlength="50" required aria-label="Discount code">
 						<button type="submit" id="discount-button">Apply</button>
 					</form>
 				<?php endif; ?>	
@@ -175,7 +175,7 @@ mysqli_close($conn);
 			<div class="cart-actions-left">
 				<form method="POST" action="cart_actions.php" style="display:inline;">
 					<input type="hidden" name="action" value="empty">
-					<button type="submit" id="empty-cart-buttton">Empty basket</button>
+					<button type="submit" id="empty-cart-button" aria-label="Empty basket">Empty basket</button>
 				</form>
 			</div>
 			
@@ -192,7 +192,7 @@ mysqli_close($conn);
 				<?php if(isset($_SESSION['user_id'])): ?>
 					<form method="POST" action="checkout.php" style="display:inline;">
 						<input type="hidden" name="action" value="place_order">
-						<button type="submit" class="checkout-button">Checkout</button>
+						<button type="submit" class="checkout-button" aria-label="Place order and check out">Checkout</button>
 					</form>	
 				<?php else: ?>
 					<a href="login.php" class="login-redirect">Login to checkout</a>
