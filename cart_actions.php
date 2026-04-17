@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 $cart= getCart();
 $action= $_POST['action'] ?? '';
 
-//Deside where to redirect after the action(defaults to cart.php)
+//Decide where to redirect after the action(defaults to cart.php)
 $redirect = $_POST['redirect'] ?? 'cart.php';
 
 //Whitelist redirect targets prevent open-redirect attacks
