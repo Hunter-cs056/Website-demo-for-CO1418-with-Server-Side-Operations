@@ -5,8 +5,8 @@ require_once 'cart_helper.php';
 
 //Implement the checkout
 //If POST: action= place_order: re-verify cart and code server-side,
-//then INSTERT into tbl_orders, redirect to GET(PRG patter)
-//IF GET: show confirmation if order_summary is in session,otherwise go back go cart page
+//then INSERT into tbl_orders, redirect to GET(PRG pattern)
+//IF GET: show confirmation if order_summary is in session,otherwise go back to cart page
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'place_order'){
 	//Check if the user is logged-in in order to place an Order
@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'place_
 	}
 	mysqli_stmt_close($stmt);
 	
-	//Check if every cart item was deleted from the DB after the cookie was setcooki for safety
+	//Check if every cart item was deleted from the DB after the cookie was set for safety
 	if(empty($items)){
 		saveCart([]);
 		clearDiscountCode();
@@ -116,7 +116,7 @@ if(!isset($_SESSION['order_summary'])){
 	exit();
 }
 
-//Clean t he summary so a refresh sends the user back to cart page
+//Clean the summary so a refresh sends the user back to cart page
 $summary = $_SESSION['order_summary'];
 unset($_SESSION['order_summary']);
 mysqli_close($conn);
@@ -126,7 +126,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Checkout Page</title>
     <link rel="stylesheet" href="styles.css">
 	
 </head>
