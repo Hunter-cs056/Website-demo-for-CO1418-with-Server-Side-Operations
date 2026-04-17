@@ -107,7 +107,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -216,10 +216,10 @@ mysqli_close($conn);
 		const confirm = document.getElementById('confirm_password').value;
 		const address = document.getElementById('address').value.trim();
 		
-		//We assume valid until proven otherwhise
+		//We assume valid until proven otherwise
 		let valid= true;
 		
-		//Check the lenght of the name to be atleast of length 2
+		//Check the length of the name to be atleast of length 2
 		if(name.length <2){
 			document.getElementById('err-name').textContent='Name must be atleast 2 characters long!';
 			valid = false;
@@ -272,7 +272,7 @@ mysqli_close($conn);
 				if(/[A-Z]/.test(val)){
 					score++;
 				}
-				//Consider the score to display the password's strenght
+				//Consider the score to display the password's strength
 				if(val.length === 0){
 					indicator.textContent = '';
 				}
