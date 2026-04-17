@@ -41,8 +41,8 @@
 	}
 	
 	//DISCOUNT-CODE HELPERS
-	//The applied code will have its own cookie alogside the cart, but we are going to re-validate it against
-	//tbl_offers on every render sp tampered/expired codes prove invalid and not affect the total's calculation
+	//The applied code will have its own cookie alongside the cart, but we are going to re-validate it against
+	//tbl_offers on every render so tampered/expired codes prove invalid and not affect the total's calculation
 	
 	//First read the applied discound code from the uppercased & trimmed cookie(defaults to empty if it doesnt exist)
 	function getDiscountCode(){
@@ -52,7 +52,7 @@
 		return strtoupper(trim($_COOKIE['discount_code']));
 	}
 	
-	//Save the discount code in a cookie with the same 30expiry date as the cart
+	//Save the discount code in a cookie with the same 30-day expiry date as the cart
 	function saveDiscountCode($code){
 		setcookie('discount_code', $code, time() + (60*60*24*30), '/');
 	}
@@ -78,8 +78,8 @@
 			return null;
 		}
 		
-		//Set a limit to a range so a bad DB value cabt naje the total go negative
+		//Set a limit to a range so a bad DB value cant make the total go negative
 		$pct= max(0, min(100, (float)$row['offer_discount']));
-		return['code' => $row['offer_code'],'discount_pct' => $pct,'title' => $row['offer_title']];
+		return ['code' => $row['offer_code'],'discount_pct' => $pct,'title' => $row['offer_title']];
 	}
 ?>
