@@ -490,6 +490,14 @@ footer .container .links  a{
 		font-size: 0.85em;
 		margin-top:0.3em;
 	}
+	#password-rules{
+		background-color: white;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		padding: 0.5em 0.7em;
+		margin-top:0.4em;
+		font-size:0.80em;
+	}
 	.login-redirect{
 		display:block;
 		margin:0.5em auto;
