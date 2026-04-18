@@ -173,9 +173,16 @@ mysqli_close($conn);
 			<div class="form-details">
 				<label for="password">Password:</label>
 				<input type="password" id="password" name="password" required minlength="8"
-				placeholder="Atleast 8 chars,1 number,1uppercase">
+				placeholder="Create a Password">
 				<span class="client-error" id="err-password"></span>
+				<!-- Password strength indicator -->
 				<div id="password-strength"></div>
+				<!-- Live rules satisfaction checklist -->
+				<div id="password-rules">
+					<div id="rule-upper"  style="color:#cc0000;">&#10007;1 uppercase letter</div>
+					<div id="rule-length" style="color:#cc0000;">&#10007;8 characters</div>
+					<div id="rule-number" style="color:#cc0000;">&#10007;1 number</div>
+				</div>
 			</div>		
 		
 			<!-- Confirm the password -->		
@@ -256,27 +263,45 @@ mysqli_close($conn);
 	document.addEventListener('DOMContentLoaded', function(){
 		const passwrd = document.getElementById('password');
 		const indicator= document.getElementById('password-strength');
+		const ruleLength= document.getElementById('rule-length');
+		const ruleNumber =document.getElementById('rule-number');
+		const ruleUpper = document.getElementById('rule-upper');
+		
+		//Helper function to dynamically mark/unmark element rules as satisfied
+		function setRule(ruleCheck, conditionMet, accordingText){
+			if(!ruleCheck) return;
+			
+			if(conditionMet){
+				ruleCheck.textContent = '\u2713 ' + accordingText;	//✓
+				ruleCheck.style.color = 'green';
+			}else{
+				ruleCheck.textContent = '\u2717 ' + accordingText;	//✗
+				ruleCheck.style.color = 'red';				
+			}
+		}
+		
 		if(passwrd && indicator){
 			passwrd.addEventListener('keyup',function(){
 				const val = passwrd.value;
-				let score = 0;
+				
+				//Evaluate each rule
+				const hasLength= val.length >= 8;
+				const hasNumber= /[0-9]/.test(val);
+				const hasUpper = /[A-Z]/.test(val);
+				
+				//Update the checklist items Live
+				setRule(ruleLength, hasLength, '8 characters');
+				setRule(ruleNumber, hasNumber, '1 number');
+				setRule(ruleUpper,  hasUpper,  '1 uppercase letter');
+				
 				//Increase the score whenever extra security is added
-				if(val.length >= 8)
-				{
-					score++;
-				}
-				if(/[0-9]/.test(val))
-				{
-				score++;
-				}
-				if(/[A-Z]/.test(val)){
-					score++;
-				}
+				const score =(hasLength ? 1 : 0) + (hasNumber ? 1 : 0) + (hasUpper ? 1 : 0);
+				
 				//Consider the score to display the password's strength
 				if(val.length === 0){
 					indicator.textContent = '';
 				}
-				else if(score === 1){
+				else if(score <= 1){
 					indicator.textContent = 'Strength: Weak';
 					indicator.style.color ='red';
 				}
