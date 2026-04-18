@@ -1,13 +1,32 @@
 <?php
 	//Helper functions for the cookie-based cart
-	//This will be included on every page that displays the cart badge or reads cart contents
+	//This file will be included on every page that displays the cart badge or reads cart contents
+	//Each user will have his own cookie containing his cart items
+	//For logged-in users cart cookie will be: cart_u(UserId)
+	//For guests cart cookie will be: cart_guests
+	function getCartCookieName(){
+		if(isset($_SESSION['user_id'])){
+			return 'cart_u' . (int)$_SESSION['user_id'];
+		}
+		return 'cart_guest';
+	}
+	
+	//The discount cookie will follow the same pattern
+	function getDiscountCookieName(){
+		if(isset($_SESSION['user_id'])){
+			return 'discount_u' . (int)$_SESSION['user_id'];
+		}
+		return 'discount_guest';
+	}
+	
 	
 	//Read the cart cookie and return it as an associative array (product_id => quantity)
 	function getCart(){
-		if(!isset($_COOKIE['cart']) || $_COOKIE['cart'] === ''){
+		$name= getCartCookieName();
+		if(!isset($_COOKIE[$name]) || $_COOKIE[$name] === ''){
 			return [];
 		}
-		$cart = json_decode($_COOKIE['cart'], true);
+		$cart = json_decode($_COOKIE[$name], true);
 		//If decode fails or returns a non-array, treat as empty
 		if(!is_array($cart)){
 			return [];
@@ -18,7 +37,8 @@
 	//Save the cart array back to a cookie with a 30-day expiry 
 	//This must be called before any output
 	function saveCart($cart){
-		setcookie('cart', json_encode($cart), time() + (60*60*24*30), '/');
+		$name =getCartCookieName();
+		setcookie($name, json_encode($cart), time() + (60*60*24*30), '/');
 	}
 	
 	//Calculate the total item count
@@ -46,20 +66,23 @@
 	
 	//First read the applied discound code from the uppercased & trimmed cookie(defaults to empty if it doesnt exist)
 	function getDiscountCode(){
-		if(!isset($_COOKIE['discount_code']) || $_COOKIE['discount_code'] === ''){
+		$name = getDiscountCookieName();
+		if(!isset($_COOKIE[$name]) || $_COOKIE[$name] === ''){
 			return '';
 		}
-		return strtoupper(trim($_COOKIE['discount_code']));
+		return strtoupper(trim($_COOKIE[$name]));
 	}
 	
 	//Save the discount code in a cookie with the same 30-day expiry date as the cart
 	function saveDiscountCode($code){
-		setcookie('discount_code', $code, time() + (60*60*24*30), '/');
+		$name =getDiscountCookieName();
+		setcookie($name, $code, time() + (60*60*24*30), '/');
 	}
 	
 	//Clear the discount code by expiring the cookie
 	function clearDiscountCode(){
-		setcookie('discount_code', '', time() - 3600, '/');
+		$name = getDiscountCookieName();
+		setcookie($name, '', time() - 3600, '/');
 	}
 	
 	//Using a prepared statement, we validate the discount code against tbl_offers
