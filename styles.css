@@ -284,7 +284,17 @@ footer .container .links  a{
    ======================================== */
    /* Header and footer are already styled so now we need to just style the content section */  
    /* Our cart header */
-
+   
+#cart-container {
+    border-radius: 2em;
+    border: 1px solid #ff5454;
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: #ddedfb;
+}   
+#Cart-title {
+    padding-left: 3em;
+}
 .cart-header,
 .cart-row {
 	max-width:800px;
@@ -309,7 +319,9 @@ footer .container .links  a{
 .cart-image{
 	width:5em;
 	height:auto;
+	border-radius: 0.9em;
 }
+
 .remove-btn{
 	background-color:#BE1622;
 	color:white;
@@ -324,20 +336,43 @@ footer .container .links  a{
 	padding:1em;
 }
 
-.qty-btn{
-	padding:0.2em 0.3em;
-	font-weight:bold;
-	cursor:pointer;
-	font-size: 0.9em;
-	
+/* Quantity controlers ( our - and + buttons & the manual input field)*/
+.qty-controls{
+	gap:0.3em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
+.qty-controls form{
+	display:contents;
+}
+.qty-pm-btn{
+	width:2em;
+	height:2em;
+	font-size: 0.85em;
+	font-weight:bold;
+	line-height: 1;
+	cursor: pointer;
+	border:1px solid #34516C;
+	border-radius: 50%;
+	background-color:#34516C;
+	color:white;
+	padding:0;
+}
+.qty-pm-btn:hover{
+	background-color:#0099D2;
+	border-color:#0099D2;
+}
+
 .qty-input{
-	width:4em;
+	width :3.5em;
 	text-align:center;
 	font-weight:bold;
-	margin:0 0.2em;
-	padding:0.5em;
+	padding: 0.5em 0.2em;
+	border:1px solid #ccc;
+	border-radius:4px;
 }
+
 /* Our Cart footer */
 #code-input{
 		padding:0.4em;
@@ -978,6 +1013,9 @@ footer .container .links p{
 		padding:0.5em;
 	}
 	/* Cart page content area */
+	h2#Cart-title {
+    padding-left: 0em;
+	}
 	.cart-row{
 		display:flex;
 		flex-wrap:wrap;
