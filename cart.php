@@ -129,12 +129,32 @@ mysqli_close($conn);
 					</div>
 					
 					<div class="cart-cell">
-						<form method="POST" action="cart_actions.php" style="display:inline;">
-							<input type="hidden" name="action" value="update">
-							<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
-							<input type="number" name="quantity" class="qty-input" min="1" value="<?php echo $item['quantity']; ?>" aria-label="Quantity for <?php echo htmlspecialchars($item['product_title']); ?>">
-							<button type="submit" class="qty-btn" aria-label="Update quantity for <?php echo htmlspecialchars($item['product_title']); ?>">Update</button>
-						</form>
+						<div class="qty-controls">
+							<!-- Minus button -->
+							<form method="POST" action="cart_actions.php">
+								<input type="hidden" name ="action" value="update">
+								<input type="hidden" name="product_id" value="<?php echo (int)$item['product_id']; ?>">
+								<input type="hidden" name="quantity" value="<?php echo $item['quantity'] - 1; ?>">
+								<button type="submit" class="qty-pm-btn" aria-label="Decrease quantity for <?php echo htmlspecialchars($item['product_title']); ?>">&#8722;</button>
+							</form>
+							
+							<!-- Manual input box -->
+							<form method="POST" action="cart_actions.php">
+								<input type="hidden" name="action" value="update">
+								<input type="hidden" name ="product_id" value="<?php echo (int)$item['product_id']; ?>">
+								<input type="number" name="quantity" class="qty-input" min="1" value="<?php echo $item['quantity']; ?>" onchange="this.form.submit()"
+								aria-label="Quantity for <?php echo htmlspecialchars($item['product_title']); ?>">
+							</form>
+						
+							<!-- Plus button -->
+							<form method="POST" action="cart_actions.php">
+								<input type="hidden" name="action" value="update">
+								<input type="hidden" name ="product_id" value="<?php echo (int)$item['product_id']; ?>">
+								<input type="hidden" name = "quantity" value="<?php echo $item['quantity'] + 1; ?>">
+								<button type="submit" class="qty-pm-btn" aria-label="Increase quantity for <?php echo htmlspecialchars($item['product_title']); ?>">&#43;</button>
+							</form>							
+						
+						</div>
 					</div>
 					
 					<div class="cart-cell">
